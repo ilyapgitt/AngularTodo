@@ -1,0 +1,45 @@
+<div class="todoapp">
+  <h1 class="todoapp__title">todos</h1>
+
+  <div class="todoapp__content">
+    <header class="todoapp__header">
+      <button
+        type="button"
+        class="todoapp__toggle-all active"
+        data-cy="ToggleAllButton"
+      >
+      </button>
+
+      <app-todo-form (save)="addTodo($event)" ></app-todo-form>
+    </header>
+
+    <section class="todoapp__main">
+     <app-todo
+        *ngFor="let todo of visibleTodos$ | async; let i = index; trackBy: trackById"
+        [todo]="todo"
+        (delete)="deleteTodo(todo)"
+        (rename)="renameTodo(todo, $event)"
+        (toggle)="toggleTodo(todo)"
+      ></app-todo>
+    </section>
+
+    <footer class="todoapp__footer" data-cy="Footer">
+      <span class="todo-count">
+        {{ (activeCount$ | async) }} items left
+      </span>
+
+      <app-filter></app-filter>
+
+      <button
+        type="button"
+        class="todoapp__clear-completed"
+        (click)="deleteCompletedTodos()"
+      >
+        Clear completed
+      </button>
+    </footer>
+  </div>
+
+  <app-message></app-message>
+</div>
+
